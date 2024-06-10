@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -25,6 +26,21 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+*:focus {
+  outline: none;
+}
+
+/* styles.css */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, and Opera */
+}
+
 
 @layer utilities {
   .text-balance {
