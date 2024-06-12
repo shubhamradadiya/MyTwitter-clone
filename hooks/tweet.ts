@@ -10,22 +10,23 @@ export const useCreateTweet =() =>{
     const queryClient = new QueryClient()
     const  mutation =useMutation({
      
-        mutationFn: (payload : CreateTweetData)=>   graphqlClient.request(createTweetMutation, {payload}),
-
-        onSuccess:async ( )=> {
+        mutationFn: async(payload : CreateTweetData)=>  await graphqlClient.request(createTweetMutation, {payload}),
+        onMutate:(payload)=> toast.loading("Creating Tweet",{id:"1"}),
+        onSuccess:async ( payload)=> {
             await queryClient.invalidateQueries({queryKey:["all-tweets"]})
+            await queryClient.invalidateQueries({queryKey:["getUser-id"]})
             toast.success('Created Success',{id:"1"})
         },
-        onMutate:(payload)=> toast.loading("Creating Tweet",{id:'1'}),
+
     }); 
 
     return mutation;
 }
 
-export const useGetAllTweets =()=>{
+export const useGetAllTweets =()=>{ 
     const query = useQuery({
-        queryKey:['all-tweets'],
-        queryFn: async ()=>await graphqlClient.request(getAllTweetsQuery)
+        queryKey:["all-tweets"],
+        queryFn: async()=> await graphqlClient.request(getAllTweetsQuery)
     })
     return {...query,tweets: query.data?.getAllTweets}
 };

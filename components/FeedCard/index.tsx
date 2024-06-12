@@ -1,4 +1,5 @@
 import { Tweet } from '@/gql/graphql';
+import Link from 'next/link';
 import React from 'react'
 import { AiOutlineRetweet } from 'react-icons/ai';
 import { BiMessageRounded } from 'react-icons/bi';
@@ -24,7 +25,7 @@ const FeedCard: React.FC<FeedCardProps>=(props)=>{
               }
             </div>
             <div className=' col-span-11 pl-2'>
-                <h1>{data.author?.firstName}</h1> 
+                <Link href={`/${data.author?.id}`}>{data.author?.firstName}</Link>
                 <p>
                   {
                     data.content
