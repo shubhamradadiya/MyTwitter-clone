@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useGetAllTweets } from "@/hooks/tweet";
 import { useCurrentUser } from "@/hooks/user";
 import React, { useCallback, useMemo } from "react";
@@ -10,7 +11,8 @@ import { graphqlClient } from "@/client/api";
 import { verifyUserGoogleTokenQuery } from "@/graphql/query/user";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-
+import { BsRecordBtn } from "react-icons/bs";
+import { IoIosMore } from "react-icons/io";
 
 
 interface TwitterlayoutProps {
@@ -55,9 +57,19 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
          link:"/"
       },
       {
+        title: "Twitter Blue",
+        icon: <BsRecordBtn />,
+         link:"/"
+      },
+      {
         title: "Profile",
         icon: <FaRegUser />,
          link:`/${user?.id}`
+      },
+      {
+        title: "More Options",
+        icon: <IoIosMore />,
+         link:"/"
       }
     ] ,[user?.id])
 
@@ -92,11 +104,11 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
                 <div className="col-span-2 sm:col-span-3 pt-1 flex sm:justify-end pr-4 relative  ">
                     <div>
                         {/* logo */}
-                    <div className="text-2xl h-fit w-fit hover:bg-gray-800 rounded-full p-2 ml-4 cursor-pointer transition-all ">
+                    <div className="text-3xl h-fit w-fit hover:bg-gray-800 rounded-full p-2 ml-4 cursor-pointer transition-all ">
                         <FaTwitter />
                     </div>
                     {/* list */}
-                    <div className="mt-2 text-xl  pr-4 font-bold   ">
+                    <div className=" mt-5 text-xl  pr-4 font-bold   ">
                         <ul className=" ">
                             {
                                 SidebarMenuItem.map((item) => (
@@ -110,7 +122,7 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
                                     </li>))
                             }
                         </ul>
-                        <div className=" mt-5 ml-2 " >
+                        <div className=" mt-11 ml-2 " >
                             <button className=" hidden sm:block bg-[#1d9bf0] ml-2 py-2 px-11 items-center rounded-full text-lg ">
                                 Tweet
                             </button>
@@ -146,12 +158,32 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
 
                 <div className=" col-span-0  sm:col-span-3 p-5">
                     {
-                        !user &&
-                        <div className=" p-5 bg-slate-700 rounded-lg  ">
-                            <h1 className="my-1 text-2xl">New to Twitter?</h1>
-                            <GoogleLogin onSuccess={handleLoginWithGoogle} />
+                        !user ?
+                        (
+                          <div className=" p-5 bg-slate-700 rounded-lg  ">
+                          <h1 className="my-1 text-2xl">New to Twitter?</h1>
+                          <GoogleLogin onSuccess={handleLoginWithGoogle} />
+                      </div>
+                        ): <div className=" px-3 py-2 bg-slate-800 rounded-lg  ">
+                            <h1 className="my-1 text-xl mb-5">Users you may know </h1>
+                           {
+                              user?.recommendedUsers?.map(el=>
+                              <div className=" flex items-center gap-3 mt-2 " key={el?.id}>
+                                {el?.profileImageURL &&
+                                  <img src={`${el?.profileImageURL}`} alt="user-image" width={60} height={60} className=" rounded-full"/>
+                                }
+                               <div>
+                               <div className=" text-lg font-bold">
+                                 {el?.firstName }
+                               </div>
+                                  <Link href={`/${el?.id}`} className=" bg-white text-black text-sm px-5 py-1 w-full rounded-lg">View</Link>
+                               </div>
+                              </div>
+                              )
+                            }
                         </div>
                     }
+
                 </div>
             </div>
         </div>

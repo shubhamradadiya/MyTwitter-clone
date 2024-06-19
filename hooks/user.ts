@@ -12,7 +12,7 @@ export const useCurrentUser = ()=>{
 };
 
 export const useGetUserById = (id : string) =>{
-    console.log(id)
+
     const query = useQuery({
         queryKey:["getUser-id"],
         queryFn:async ()=> {
@@ -23,9 +23,9 @@ export const useGetUserById = (id : string) =>{
                     }
         
                 )
-            
+                
         }
     })
-      console.log(query)
+  
     return {...query,user:query.data?.getUserById}
 }

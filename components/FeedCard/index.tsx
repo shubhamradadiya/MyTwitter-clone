@@ -25,12 +25,15 @@ const FeedCard: React.FC<FeedCardProps>=(props)=>{
               }
             </div>
             <div className=' col-span-11 pl-2'>
-                <Link href={`/${data.author?.id}`}>{data.author?.firstName}</Link>
+                <Link href={`/${data.author?.id}`}>{data.author?.firstName}</Link> 
                 <p>
                   {
                     data.content
                   }
                 </p>
+                {
+                  data.imageURL && <img src={`${data.imageURL}`} alt='image' width={400} height={400}/>
+                }
 
                 <div className=' flex justify-between mt-5 text-xl w-[90%]'>
                     <div>
