@@ -88,7 +88,7 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
     )
 
     toast.success("Verified Success");
-    console.log(verifyGoogleToken)
+    
 
     if (verifyGoogleToken) {
       window.localStorage.setItem('__twitter_token', verifyGoogleToken)
@@ -165,7 +165,7 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
                           <GoogleLogin onSuccess={handleLoginWithGoogle} />
                       </div>
                         ): <div className=" px-3 py-2 bg-slate-800 rounded-lg  ">
-                            <h1 className="my-1 text-xl mb-5">Users you may know </h1>
+                            <h1 className="my-1 text-xl mb-5">Suggested for you </h1>
                            {
                               user?.recommendedUsers?.map(el=>
                               <div className=" flex items-center gap-3 mt-2 " key={el?.id}>
@@ -176,7 +176,7 @@ const Twitterlayout: React.FC<TwitterlayoutProps> = (props) => {
                                <div className=" text-lg font-bold">
                                  {el?.firstName }
                                </div>
-                                  <Link href={`/${el?.id}`} className=" bg-white text-black text-sm px-5 py-1 w-full rounded-lg">View</Link>
+                                  <Link onClick={async()=>await queryClient.invalidateQueries({ queryKey: ["getUser-id"] })} href={`/${el?.id}`} className=" bg-white text-black text-sm px-5 py-1 w-full rounded-lg">View</Link>
                                </div>
                               </div>
                               )
